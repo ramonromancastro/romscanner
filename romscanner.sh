@@ -228,6 +228,8 @@ playlists.
 Options:
   -f|--force    force roms rescan
   -d|--dats     force DAT download
+  -s|--storage  storage path (default: $storage_path)
+  -c|--cores    cores path (default: $cores_path)
   -h|--help     show this help
   -V|--version  print version number
 
@@ -269,6 +271,17 @@ while [[ $# -gt 0 ]]; do
 		-V|--version)
 			version
 			exit 0
+			;;
+		-s|--storage)
+			storage_path=$2
+			roms_path=${storage_path}/roms
+			thumbnails_path=${storage_path}/thumbnails
+			playlists_path=${storage_path}/playlists
+			shift
+			;;
+		-c|--cores)
+			cores_path=$2
+			shift
 			;;
 		*)
 			shortusage
