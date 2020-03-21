@@ -157,7 +157,7 @@ downloadDATs(){
 		echo "Downloading MAME DAT file..."
 		wget -O $mame_dat $mame_dat_url &> /dev/null
 		if [ $? -ne 0 ]; then
-			echo -e "\033[31mError downloading MAME DAT file. Try to download manually from [$mame_dat_url] and rename it to [$mame_dat]\e[0m" >&2
+			echo -e "\033[31mError downloading MAME DAT file. Try to download manually from [$mame_dat_url] and rename it to [$mame_dat]\e[0m"
 			rm -f $mame_dat
 			exit 1
 		fi
@@ -166,7 +166,7 @@ downloadDATs(){
 		echo "Downloading FBA DAT file..."
 		wget -O $fba_dat $fba_dat_url &> /dev/null
 		if [ $? -ne 0 ]; then
-			echo -e "\033[31mError downloading FBA DAT file. Try to download manually from [$fba_dat_url] and rename it to [$fba_dat]\e[0m" >&2
+			echo -e "\033[31mError downloading FBA DAT file. Try to download manually from [$fba_dat_url] and rename it to [$fba_dat]\e[0m"
 			rm -f $fba_dat
 			exit 1
 		fi
