@@ -7,4 +7,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Implementada la descarga de archivos DAT desde Internet.
+- Añadidos los parámetros --storage y --cores
 - Primera versión publicada.
