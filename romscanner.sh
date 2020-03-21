@@ -25,11 +25,11 @@ VERSION="1.3"
 
 # Configuration variables
 
-storage_path=./storage
+storage_path=/storage
 roms_path=${storage_path}/roms
 thumbnails_path=${storage_path}/thumbnails
 playlists_path=${storage_path}/playlists
-cores_path=./tmp/cores
+cores_path=/tmp/cores
 
 # Parameters
 
