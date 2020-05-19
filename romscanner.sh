@@ -21,7 +21,7 @@ shopt -s nullglob
 
 # Constants
 
-VERSION="1.3"
+VERSION="1.4"
 
 # Configuration variables
 
@@ -38,10 +38,10 @@ p_force=
 
 # Internal variables
 
-mame_title="Arcade (MAME 2003)"
-mame_dat_url="https://raw.githubusercontent.com/libretro/mame2003-libretro/master/metadata/mame2003.xml"
+mame_title="Arcade (MAME 2003-Plus)"
+mame_dat_url="https://raw.githubusercontent.com/libretro/mame2003-plus-libretro/master/metadata/mame2003-plus.xml"
 mame_dat=mame.dat
-mame_playlists="MAME2003.lpl"
+mame_playlists="MAME 2003-Plus.lpl"
 mame_playlists_path=
 mame_thumbnails_path=
 mame_roms_path=
@@ -69,9 +69,9 @@ fillVariables(){
   playlists_path=${storage_path}/playlists
 
   mame_playlists_path="${playlists_path}/${mame_playlists}"
-  mame_thumbnails_path="${thumbnails_path}/MAME2003"
+  mame_thumbnails_path="${thumbnails_path}/MAME2003-Plus"
   mame_roms_path="${roms_path}/mame"
-  mame_cores_path="${cores_path}/mame2003_libretro.so"
+  mame_cores_path="${cores_path}/mame2003_plus_libretro.so"
 
   fba_playlists_path="${playlists_path}/${fba_playlists}"
   fba_thumbnails_path="${thumbnails_path}/FB Alpha - Arcade Games"
