@@ -21,15 +21,26 @@ shopt -s nullglob
 
 # Constants
 
-VERSION="1.4"
+VERSION="1.51"
 
 # Configuration variables
 
 storage_path=/storage
-roms_path=
-thumbnails_path=
-playlists_path=
 cores_path=/tmp/cores
+
+mame_core="mame2003_plus_libretro.so"
+mame_core_name="Arcade (MAME 2003-Plus)"
+mame_dat_url="https://raw.githubusercontent.com/libretro/mame2003-plus-libretro/master/metadata/mame2003-plus.xml"
+mame_playlist="MAME 2003-Plus.lpl"
+mame_thumbnails_url="https://raw.githubusercontent.com/libretro/libretro-thumbnails/master/MAME"
+mame_dir="mame2003-plus"
+
+fba_core="fbalpha_libretro.so"
+fba_core_name="Arcade (FB Alpha - Arcade Games)"
+fba_dat_url="https://raw.githubusercontent.com/libretro/fbalpha/master/dats/FB%20Alpha%20(ClrMame%20Pro%20XML%2C%20Arcade%20only).dat"
+fba_playlist="FB Alpha - Arcade Games.lpl"
+fba_thumbnails_url="https://raw.githubusercontent.com/libretro/libretro-thumbnails/master/FB%20Alpha%20-%20Arcade%20Games"
+fab_dir="fba"
 
 # Parameters
 
@@ -38,25 +49,21 @@ p_force=
 
 # Internal variables
 
-mame_title="Arcade (MAME 2003-Plus)"
-mame_dat_url="https://raw.githubusercontent.com/libretro/mame2003-plus-libretro/master/metadata/mame2003-plus.xml"
 mame_dat=mame.dat
-mame_playlists="MAME 2003-Plus.lpl"
-mame_playlists_path=
+mame_playlist_path=
 mame_thumbnails_path=
 mame_roms_path=
 mame_cores_path=
-mame_thumbnails_url="https://raw.githubusercontent.com/libretro/libretro-thumbnails/master/MAME"
 
-fba_title="Arcade (FB Alpha - Arcade Games)"
-fba_dat_url="https://raw.githubusercontent.com/libretro/fbalpha/master/dats/FB%20Alpha%20(ClrMame%20Pro%20XML%2C%20Arcade%20only).dat"
 fba_dat=fba.dat
-fba_playlists="FB Alpha - Arcade Games.lpl"
-fba_playlists_path=
+fba_playlist_path=
 fba_thumbnails_path=
 fba_roms_path=
 fba_cores_path=
-fba_thumbnails_url="https://raw.githubusercontent.com/libretro/libretro-thumbnails/master/FB%20Alpha%20-%20Arcade%20Games"
+
+roms_path=
+thumbnails_path=
+playlists_path=
 
 romsmissing=0
 romsfound=0
@@ -68,25 +75,25 @@ fillVariables(){
   thumbnails_path=${storage_path}/thumbnails
   playlists_path=${storage_path}/playlists
 
-  mame_playlists_path="${playlists_path}/${mame_playlists}"
-  mame_thumbnails_path="${thumbnails_path}/MAME2003-Plus"
-  mame_roms_path="${roms_path}/mame"
-  mame_cores_path="${cores_path}/mame2003_plus_libretro.so"
+  mame_playlist_path="${playlists_path}/${mame_playlist}"
+  mame_thumbnails_path="${thumbnails_path}/${mame_dir}"
+  mame_roms_path="${roms_path}/${mame_dir}"
+  mame_cores_path="${cores_path}/${mame_core}"
 
-  fba_playlists_path="${playlists_path}/${fba_playlists}"
-  fba_thumbnails_path="${thumbnails_path}/FB Alpha - Arcade Games"
-  fba_roms_path="${roms_path}/fba"
-  fba_cores_path="${cores_path}/fbalpha_libretro.so"
+  fba_playlist_path="${playlists_path}/${fba_playlist}"
+  fba_thumbnails_path="${thumbnails_path}/${fba_dir}"
+  fba_roms_path="${roms_path}/${fba_dir}"
+  fba_cores_path="${cores_path}/${mame_core}"
 }
 
 getName () {
   local name=$(sed -n '/<game name="'$1'"/,/<\/description>/p' "$2" | sed -n 's:.*<description>\(.*\)</description>.*:\1:p') 
-  echo $name
+  echo "$name"
 }
 
 sanitize (){
-  local name=$(echo $1 | sed 's/&amp;/_/gi' | sed "s/&apos;/'/gi" | sed 's/[&\\/\?:<>\*\|]/_/g')
-  echo $name
+  local name=$(echo "$1" | sed 's/&amp;/_/gi' | sed "s/&apos;/'/gi" | sed 's/[&\\/\?:<>\*\|]/_/g')
+  echo "$name"
 }
 
 #$1 check if there were new roms added since last time
@@ -139,7 +146,7 @@ scanarcade () {
 			echo -e " = \033[32m$gamename\e[0m" >&2
 			echo $gamename >> romscanner.ok
 			echo $fullpath
-			echo $gamename
+			echo "$gamename"
 			echo $3
 			echo $4
 			echo "DETECT"
@@ -330,12 +337,12 @@ rm romscanner.ok -f > /dev/null
 
 # MAME
 
-echo -e "\e[97m${mame_title}\e[0m"
+echo -e "\e[97m${mame_core_name}\e[0m"
 if [ -d "$mame_roms_path" ]; then
 	change=$(checkIfChange "$mame_roms_path")
 	if [ "$change" -eq "1" ] || [ $p_force ]; then
 		rm romscanner.ok -f > /dev/null
-		scanarcade "$mame_roms_path" "*.zip" "$mame_cores_path" "$mame_title" "$mame_playlists" "$mame_dat" > "$mame_playlists_path"
+		scanarcade "$mame_roms_path" "*.zip" "$mame_cores_path" "$mame_core_name" "$mame_playlist" "$mame_dat" > "$mame_playlist_path"
 		if [ -f romscanner.ok ]; then
 			thumbnails "romscanner.ok" "$mame_thumbnails_path" $mame_thumbnails_url
 		fi
@@ -348,12 +355,12 @@ fi
 
 # FBA
 
-echo -e "\e[97m${fba_title}\e[0m"
+echo -e "\e[97m${fba_core_name}\e[0m"
 if [ -d "$fba_roms_path" ]; then
 	change=$(checkIfChange "$fba_roms_path")
 	if [ "$change" -eq "1" ] || [ $p_force ]; then
 		rm romscanner.ok -f > /dev/null
-		scanarcade "$fba_roms_path" "*.zip" "$fba_cores_path" "$fba_title" "$fba_playlists" "$fba_dat" > "$fba_playlists_path"
+		scanarcade "$fba_roms_path" "*.zip" "$fba_cores_path" "$fba_core_name" "$fba_playlist" "$fba_dat" > "$fba_playlist_path"
 		if [ -f romscanner.ok ]; then
 			thumbnails "romscanner.ok" "$fba_thumbnails_path" $fba_thumbnails_url
 		fi
