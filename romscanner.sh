@@ -40,7 +40,7 @@ fba_core_name="Arcade (FB Alpha - Arcade Games)"
 fba_dat_url="https://raw.githubusercontent.com/libretro/fbalpha/master/dats/FB%20Alpha%20(ClrMame%20Pro%20XML%2C%20Arcade%20only).dat"
 fba_playlist="FB Alpha - Arcade Games.lpl"
 fba_thumbnails_url="https://raw.githubusercontent.com/libretro/libretro-thumbnails/master/FB%20Alpha%20-%20Arcade%20Games"
-fab_dir="fba"
+fba_dir="fba"
 
 # Parameters
 
